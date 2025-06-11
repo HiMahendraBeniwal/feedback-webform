@@ -50,32 +50,23 @@
     <textarea name="feedback" placeholder="Your Feedback"></textarea>
     <button type="submit">Submit</button>
   </form>
-
   <script>
-    const form = document.getElementById("feedbackForm");
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxnxROREkwO42sdP-kKsbEKDPNtU0r4iOhLaVQMGc3PRJ96VxvBK_34v0GNpFo2Km5PNQ/exec"; // Replace with your actual deployed Web App URL
+  const scriptURL = "https://script.google.com/macros/s/AKfycbzV-ZVCXwG-D4UBW-nZgZMMs0YdBm6FmdHHj4l9noOWrJid1PVDXXXKphCV6B2Q7c5f/exec";
+  const form = document.getElementById("feedbackForm");
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
 
-      try {
-        const res = await fetch(scriptURL, {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-
-        const result = await res.text();
-        alert("Form submitted successfully: " + result);
+    fetch(scriptURL, { method: "POST", body: formData })
+      .then(response => response.text())
+      .then(data => {
+        alert("Form submitted successfully!");
         form.reset();
-      } catch (err) {
-        alert("Error submitting form: " + err);
-      }
-    });
-  </script>
-</body>
-</html>
+      })
+      .catch(error => {
+        alert("Error submitting form: " + error);
+        console.error("Submission error:", error);
+      });
+  });
+</script>
