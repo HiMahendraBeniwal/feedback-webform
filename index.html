@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Feedback Form</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, select, textarea, button {
+      display: block;
+      margin-bottom: 15px;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">Feedback Form</h2>
+  <form id="feedbackForm">
+    <input type="text" name="name" placeholder="Your Name" required />
+    <input type="email" name="email" placeholder="Your Email" required />
+    <select name="rating" required>
+      <option value="">Rate us</option>
+      <option value="5">Excellent</option>
+      <option value="4">Good</option>
+      <option value="3">Average</option>
+      <option value="2">Poor</option>
+    </select>
+    <textarea name="feedback" placeholder="Your Feedback"></textarea>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const form = document.getElementById("feedbackForm");
+    const scriptURL = "YOUR_WEB_APP_URL_HERE"; // Replace with your actual deployed Web App URL
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const res = await fetch(scriptURL, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        const result = await res.text();
+        alert("Form submitted successfully: " + result);
+        form.reset();
+      } catch (err) {
+        alert("Error submitting form: " + err);
+      }
+    });
+  </script>
+</body>
+</html>
